@@ -1,7 +1,10 @@
 Getting and Cleaning Data Project 
 Description & Code Book
+
 Script Description
+
 Prerequisites
+
 - The library dplyr needs to be installed and is used to calculate all the averages per activity and subject 
 - The files source files are assumed to be located in the same directory where the script is run.
 (already extracted from the .zip source)
@@ -74,25 +77,30 @@ subset_mean_std<-subset_data[,grep("meanFreq",colnames(subset_data),invert=TRUE)
 
 activity_subject_averages<-subset_mean_std %>% group_by(Activity,Subject) %>% summarise_each(funs(mean))
 
- 4) Finally, we create the output data_frame "m" to include in the summarized data set the activity description by using the function merge, joining by activity id.
+4) Finally, we create the output data_frame "m" to include in the summarized data set the activity description by using the function merge, joining by activity id.
  Then we write the output "m" dataframe to a file "Tidy_Dataset.txt"
 
 m<-merge(activity_labels,activity_subject_averages,by.x="Activity Id",by.y="Activity")
 write.table(m,"Tidy_Dataset.txt",row.names=FALSE,col.names=TRUE) 
 
+
 The code book
 
 Variables in the Tyde_dataset file:
+
 Grouping Variables
+
 The first three columns are the variables by which resulting averages where grouped and are:
 Activity Id: identifier of the type of activity (numeric, values 1 to 6)
 Activity Name: string with the corresponding activity description 
+
 1 WALKING
 2 WALKING_UPSTAIRS
 3 WALKING_DOWNSTAIRS
 4 SITTING
 5 STANDING
 6 LAYING
+
 Subject: numeric identifier of the subject to which the measures correpsond to (measures row). Values from 1 to 30.
 
 Measure Variables 
@@ -168,19 +176,20 @@ fBodyGyro-mean()-Z
 fBodyGyro-std()-X
 fBodyGyro-std()-Y           
 fBodyGyro-std()-Z 
+
 fBodyAccMag-mean()
-	fBodyAccMag-std()
+fBodyAccMag-std()
 
-	fBodyBodyAccJerkMag-mean()
-	fBodyBodyAccJerkMag-std()
-
-	fBodyBodyGyroMag-mean()
-	fBodyBodyGyroMag-std()
-	fBodyBodyGyroJerkMag-mean()
-	fBodyBodyGyroJerkMag-std()
+fBodyBodyAccJerkMag-mean()
+fBodyBodyAccJerkMag-std()
+fBodyBodyGyroMag-mean()
+fBodyBodyGyroMag-std()
+fBodyBodyGyroJerkMag-mean()
+fBodyBodyGyroJerkMag-std()
 
 
 The internal variables used inside the script are:
+
 train_data: dataframe that contains all the measures for the train subjects
 test_data: dataframe that contains all the measures for the test subjects
 train_labels and test_labels: contain the corresponding activity id for each row in the train_data and test_data dataframes.
@@ -195,5 +204,6 @@ activity_subject_averages: dataframe with the average of all columns (mean and s
 m: the same as activity_subject_average, but including the activity description column
 
 1. Information about the summary choices you made
+
 The script first consolidates all the information provided by the different files into a unique “data” dataframe (except for the activity description).
 Then it calculates de average of each column grouped by Activity and Subject and returns it in the tyde_dataset file, (including the activity description before writing the file)
